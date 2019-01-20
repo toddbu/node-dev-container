@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Open up the docker socket so that our container can talk to it
+sudo chmod 777 /var/run/docker.sock
+
+DEVICE=""
+[ -c /dev/i2c-1 ] && DEVICE="--device /dev/i2c-1"
+CLOCK=""
+[ -f /var/lib/systemd/clock ] && CLOCK="-v /var/lib/systemd/clock:/var/lib/systemd/clock:rw"
+
+docker run -d --restart="always" --name node-dev-container --hostname dev --net="host" ${DEVICE} -v node-dev-home:/home:rw -v /var/run/docker.sock:/var/run/docker.sock:rw ${CLOCK} toddbu/node-dev-container:1.0.1
+
