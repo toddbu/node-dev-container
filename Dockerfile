@@ -12,12 +12,13 @@ RUN apt-get clean
 RUN sed -i 's/#Port 22/Port 2223/g' /etc/ssh/sshd_config; \
  ssh-keygen -A
 
-# Copy config files for samba and supervisord
+# Copy config files for samba and ssh into supervisord
 COPY samba.conf /etc/supervisor/conf.d/
 COPY ssh.conf /etc/supervisor/conf.d/
 COPY smb.conf /etc/samba/
+RUN mkdir -p /var/run/sshd
 
-# Add a non-root user and group called "dev" gid/uid set to 1000
+# Add a non-root user and group called "dev" with gid/uid set to 1000
 RUN adduser --uid 1000 --shell /bin/bash --disabled-password dev
 RUN echo "dev123!\ndev123!" | passwd dev
 
