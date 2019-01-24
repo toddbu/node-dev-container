@@ -5,7 +5,13 @@ MAINTAINER Todd Buiten <spam@buiten.com>
 RUN apt-get update && apt-get -y upgrade
 
 # Install samba and supervisord
-RUN apt-get install -y bash bash-completion vim sudo nodejs npm git tar gzip less make g++ linux-headers-generic curl docker.io openssh-server samba supervisor
+RUN apt-get install -y bash bash-completion vim sudo git tar gzip less make g++ linux-headers-generic curl docker.io openssh-server samba supervisor
+
+# Install Node 10
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+RUN apt-get install -y nodejs
+
+# Clean up
 RUN apt-get clean
 
 # Change the default port for SSH from 22 to 2223
