@@ -16,7 +16,8 @@ RUN apt-get clean
 
 # Change the default port for SSH from 22 to 2223
 RUN sed -i 's/#Port 22/Port 2223/g' /etc/ssh/sshd_config; \
- ssh-keygen -A
+ ssh-keygen -A;\
+ mkdir -p /var/run/sshd
 
 # Copy config files for samba and ssh into supervisord
 COPY samba.conf /etc/supervisor/conf.d/
