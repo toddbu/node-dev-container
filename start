@@ -8,4 +8,4 @@ DEVICE=""
 CLOCK=""
 [ -f /var/lib/systemd/clock ] && CLOCK="-v /var/lib/systemd/clock:/var/lib/systemd/clock:rw"
 
-docker run -d --restart="always" --name node-dev-container-2 --hostname dev --net="host" ${DEVICE} -v node-dev-home:/home/dev:rw -v /var/run/docker.sock:/var/run/docker.sock:rw ${CLOCK} toddbu/node-dev-container:2.0.0
+docker run -d --restart="always" --name node-dev-container-2 --hostname dev --net="host" ${DEVICE} -v node-dev-home:/home/dev:rw -v /var/run/docker.sock:/var/run/docker.sock:rw -v /run/systemd/private:/run/systemd/private ${CLOCK} toddbu/node-dev-container:2.0.0
