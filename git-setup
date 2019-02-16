@@ -12,6 +12,7 @@ read -r EMAIL
 git config --global user.name "${FULLNAME}"
 git config --global user.email "${EMAIL}"
 git config --global credential.helper 'cache --timeout=86400'
+git config --global push.followTags true
 
 echo "Git reports the following changes:"
 echo "  user.name: $(git config --global user.name)"
