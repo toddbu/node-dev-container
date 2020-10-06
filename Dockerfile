@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER Todd Buiten <spam@buiten.com>
 
 # Update the base system
