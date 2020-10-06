@@ -4,6 +4,9 @@ MAINTAINER Todd Buiten <spam@buiten.com>
 # Update the base system
 RUN apt-get update && apt-get -y upgrade
 
+# Install tzdata non-interactively which should set us to UTC
+RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
+
 # Install samba and supervisord
 RUN apt-get install -y bash bash-completion vim sudo git tar gzip less make g++ linux-headers-generic curl docker.io openssh-server samba supervisor
 
