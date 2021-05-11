@@ -10,8 +10,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 # Install samba and supervisord
 RUN apt-get install -y bash bash-completion vim sudo git tar gzip less make g++ linux-headers-generic curl docker.io openssh-server samba supervisor python3-pip
 
-# Install Node 12
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+# Install Node 14
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
 # Clean up
