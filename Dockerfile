@@ -29,7 +29,7 @@ COPY smb.conf /etc/samba/
 RUN mkdir -p /var/run/sshd
 
 # Add a non-root user and group called "dev" with gid/uid set to 1000
-RUN adduser --uid 1000 --shell /bin/bash --disabled-password dev
+RUN adduser --uid 1000 --shell /bin/bash --disabled-password --gecos "" dev
 RUN echo "dev123!\ndev123!" | passwd dev
 
 # Add a few things for the "dev" user
