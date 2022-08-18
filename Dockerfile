@@ -8,7 +8,7 @@ RUN apt-get update && apt-get -y upgrade
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 
 # Install samba and supervisord
-RUN apt-get install -y bash bash-completion vim sudo git tar gzip less make g++ linux-headers-generic curl docker.io openssh-server samba smbclient supervisor python3-pip iputils-ping bind9-utils net-tools lsof dnsutils
+RUN apt-get install -y bash bash-completion vim sudo git tar gzip less make g++ linux-headers-generic curl docker.io openssh-server samba smbclient netatalk supervisor python3-pip iputils-ping bind9-utils net-tools lsof dnsutils
 
 # Install Node 16
 RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
@@ -22,10 +22,13 @@ RUN apt-get clean
 RUN ssh-keygen -A;\
  mkdir -p /var/run/sshd
 
-# Copy config files for samba and ssh into supervisord
+# Copy config files for supervisord defaults, samba, afp (netatalk), and ssh into supervisord
+COPY supervisord.conf /etc/supervisor/conf.d/
 COPY samba.conf /etc/supervisor/conf.d/
+COPY netatalk.conf /etc/supervisor/conf.d/
 COPY ssh.conf /etc/supervisor/conf.d/
 COPY smb.conf /etc/samba/
+COPY afp.conf /etc/netatalk/
 
 # Add a non-root user and group called "dev" with gid/uid set to 1000
 RUN adduser --uid 1000 --shell /bin/bash --disabled-password --gecos "" dev
@@ -57,7 +60,7 @@ RUN chown -R vagrant.vagrant /home/vagrant/.ssh
 # Volume mappings
 VOLUME /home/dev
 
-# exposes samba's default ports (137, 138 for nmbd and 139, 445 for smbd) and sshd port 2222
-EXPOSE 137/udp 138/udp 139 445 2222
+# exposes samba's default ports (137, 138 for nmbd and 139, 445 for smbd), sshd port 2222, and afp port 2548
+EXPOSE 137/udp 138/udp 139 445 2222 2548
 
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
