@@ -60,7 +60,7 @@ RUN chown -R vagrant.vagrant /home/vagrant/.ssh
 # Volume mappings
 VOLUME /home/dev
 
-# exposes samba's default ports (137, 138 for nmbd and 139, 445 for smbd), sshd port 2222, and afp port 2548
-EXPOSE 137/udp 138/udp 139 445 2222 2548
+# exposes samba's default ports (137, 138 for nmbd and 139, 445 for smbd), afp port 548, sshd port 2222
+EXPOSE 137/udp 138/udp 139 445 548 2222
 
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
