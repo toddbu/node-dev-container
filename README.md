@@ -53,9 +53,25 @@ Once your dev container is running, please note the following:
   + If you want to use AFP, login as the `dev` user (above)
   + If you want to use SMB, the username is `dev` and the password is `sambapwd`
 
+## Docker Container Management From Within the Container Itself
+
+The are often times when you want to spin up other containers that reside in the same VM as your dev container as peers. A good example of this is starting a container for your DB of choice (e.g. Postgres). Rather than switching from your container to the host to do this, you can instead enter your Docker commands directly into your dev container (e.g. `docker ps`). When running in a VM, you may have to do a one-time `chmod 777 /var/run/docker.sock` to open permissions to Docker from within the container. This is NOT required in Docker Desktop.
+
 ## Docker Desktop and Public Networks
 
-As of this writing, there is a bug in the Docker Desktop software on Macs that prevents you from properly creating a bridged IP (https://github.com/docker/for-mac/issues/3926), so I've had to come up with a workaround. If you create your container with a NATted IP, then you can manually build a tunnel between your container and your laptop for the ports that you want to forward. Simply SSH into the container and type `ssh toddbu@<your laptop IP> -R 2548:localhost:548` if you want to use AFP. Then your Mac, type Command-K from the Finder and use `afp://localhost:2548` as the connection address. Before you connect your probably want to enter the following into your `~/.ssh/config` file to prevent your SSH connection from timing out - `ServerAliveInterval 30`
+As of this writing, there is a bug in the Docker Desktop software on Macs that prevents you from properly creating a bridged IP (https://github.com/docker/for-mac/issues/3926), so I've had to come up with a workaround. If you create your container with a NATted IP, then you can manually build a tunnel between your container and your laptop for the ports that you want to forward. Simply SSH into the container and type `ssh toddbu@<your laptop IP> -R 2548:localhost:548` if you want to use AFP. Then your Mac, type Command-K from the Finder and use `afp://localhost:2548` as the connection address. Before you connect your probably want to enter the following into your `~/.ssh/config` file to prevent your SSH connection from timing out - `ServerAliveInterval 30`.
+
+## UTM
+
+When switching from Intel Macs to Apple Silicon, those using VirtualBox will be faced with having to switch to another VM solution. I tried UTM but in the end I had a lot of trouble making it work. For one, there didn't appear to be a NAT networking model that was consistent with what VirtualBox provides. I might have been able to live with that, but UTM was too unstable for me. Hopefully they will get this figured out since it shows so much promise.
+
+## Getting to the Real VM in Docker Desktop
+
+Docker Desktop is quite well polished and despite a few bugs is very usable. But sometimes you need to be able to get VM that runs Docker Desktop. "Oh, you mean that Docker Desktop uses a VM?" you may ask? Why yes, it certainly does. It uses an embedded copy of QEMU to do its work. If you want to access that VM you may type `docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh` to get to a shell. Or, if you just want to get to the disk then you may enter `docker run --rm -it -v /:/docker debian` and look in the `/docker` directory.
+
+## Acknowledgement
+
+I wish to thank James Cundle for his most excellent article for running development containers on an M1 Mac (https://betterprogramming.pub/managing-virtual-machines-under-vagrant-on-a-mac-m1-aebc650bc12c). He was the one for inspiring me to look at Vagrant for managing the container. I highly suggest that you read his article and follow him on Medium.
 
 ### License
 
