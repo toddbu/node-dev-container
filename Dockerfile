@@ -10,8 +10,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 # Install samba and supervisord
 RUN apt-get install -y bash bash-completion vim sudo git tar gzip less make g++ linux-headers-generic curl docker.io openssh-server samba smbclient netatalk supervisor python3-pip iputils-ping bind9-utils net-tools lsof dnsutils
 
-# Install Node 16
-RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+# Install Node 18
+RUN curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
 # Clean up
